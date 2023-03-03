@@ -4,19 +4,19 @@ import { BiSearchAlt } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 export class Searchbar extends Component {
   state = {
-    inputValue: '',
+    inputData: '',
   };
   inputChange = e => {
-    this.setState({ inputData: e.currentTarget.value.toLowerCase() });
+    this.setState({ inputData: e.target.value.toLowerCase() });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.inputValue);
-    this.setState({ inputValue: '' });
+    this.props.onSubmit(this.state.inputData);
+    this.setState({ inputData: '' });
   };
   render() {
-    const { inputValue } = this.state;
+    const { inputData } = this.state.inputData;
     return (
       <header className="Searchbar">
         <form className="SearchForm" onSubmit={this.handleSubmit}>
@@ -26,11 +26,12 @@ export class Searchbar extends Component {
 
           <input
             className="SearchForm-input"
-            value={inputValue}
+            value={inputData}
+            name="inputData"
             onChange={this.inputChange}
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
           />
         </form>

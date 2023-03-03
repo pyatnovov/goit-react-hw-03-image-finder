@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import './App.css';
 import { FetchImg } from 'services/fetchImges';
 import { Searchbar } from './Searchbar/Searchbar';
 export class App extends Component {

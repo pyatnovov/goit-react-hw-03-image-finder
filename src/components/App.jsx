@@ -17,7 +17,7 @@ export class App extends Component {
       });
   }
   render() {
-    const { totalHits, images, status } = this.state;
+    const { status } = this.state;
     if (status === 'idle') {
       return <Searchbar />;
     }

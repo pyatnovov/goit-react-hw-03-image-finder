@@ -14,7 +14,7 @@ export class App extends Component {
     totalHits: 0,
   };
 
-  handleSubmit = inputData => {
+  handleSubmit  = async inputData => {
     page = 1;
     if (inputData.trim() === '') {
       alert('Введіть назву фотографії');
@@ -22,7 +22,7 @@ export class App extends Component {
     } else {
       try {
         this.setState({ status: 'pending' });
-        const { totalHits, hits } = fetchImages(inputData, page);
+        const { totalHits, hits } = await fetchImages(inputData, page);
         if (hits.length < 1) {
           this.setState({ status: 'idle' });
           alert('Немає фото');
@@ -39,12 +39,11 @@ export class App extends Component {
       }
     }
   };
-  AddMore = () => {
+  AddMore = async () => {
     const { inputData } = this.state;
     this.setState({ status: 'pending' });
     try {
-      const { hits } = fetchImages(inputData, (page += 1));
-      console.log(hits);
+      const { hits } = await fetchImages(inputData, (page += 1));
       this.setState(prevState => ({
         items: [...prevState.items, ...hits],
         status: 'resolved',

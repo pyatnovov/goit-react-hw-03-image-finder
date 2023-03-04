@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'components/Modal/Modal';
+import { ImageGalleryItems,ImageGalleryItemImage } from './ImageGalleryItem.styled';
+
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -14,15 +16,15 @@ export class ImageGalleryItem extends Component {
     const { item } = this.props;
     const { webformatURL } = item; ;
     return (
-      <li className="ImageGalleryItem">
-        <img
+      <ImageGalleryItems className="ImageGalleryItem">
+        <ImageGalleryItemImage
           onClick={this.Modal}
-          className="ImageGalleryItem-image"
+          className="ImageGalleryItemImage"
           src={webformatURL}
           alt="img"
         />
         {this.state.showModal && <Modal onClose={this.Modal} image={item} />}
-      </li>
+      </ImageGalleryItems>
     );
   }
 }

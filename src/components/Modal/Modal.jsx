@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import './Modal.css';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
+import { Modalwindow, Overlay } from './Modal.styled';
 
-// const RootModal = document.queryCommandValue('#RootModal');
+const RootModal = document.querySelector('#modal-root');
 export class Modal extends Component {
   KeyPress = e => {
     if (e.code === 'Escape') {
@@ -27,11 +27,12 @@ export class Modal extends Component {
   render() {
     const { largeImageURL } = this.props.image;
     return createPortal(
-      <div onClick={this.Overlay} className="Overlay">
-        <div className="Modal">
+      <Overlay onClick={this.Overlay} className="Overlay">
+        <Modalwindow className="Modal">
           <img src={largeImageURL} alt="IMG" />
-        </div>
-      </div>
+        </Modalwindow>
+      </Overlay>,
+      RootModal
     );
   }
 }

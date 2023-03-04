@@ -1,7 +1,12 @@
-import './Searchbar.css';
 import { Component } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import PropTypes from 'prop-types';
+import {
+  Search,
+  Form,
+  SearchFormButton,
+  SearchFormInput,
+} from './Searchbar.styled';
 export class Searchbar extends Component {
   state = {
     inputData: '',
@@ -18,13 +23,13 @@ export class Searchbar extends Component {
   render() {
     const { inputData } = this.state.inputData;
     return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
+      <Search className="Searchbar">
+        <Form className="SearchForm" onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit" className="SearchForm-button">
             <BiSearchAlt size={25} />
-          </button>
+          </SearchFormButton>
 
-          <input
+          <SearchFormInput
             className="SearchForm-input"
             value={inputData}
             name="inputData"
@@ -34,8 +39,8 @@ export class Searchbar extends Component {
             autoFocus
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </Form>
+      </Search>
     );
   }
 }

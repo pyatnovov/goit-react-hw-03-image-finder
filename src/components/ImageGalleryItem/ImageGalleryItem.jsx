@@ -11,8 +11,8 @@ export class ImageGalleryItem extends Component {
   };
 
   render() {
-    const { image } = this.props;
-    const { webformatURL } = image;
+    const { item } = this.props;
+    const { webformatURL } = item; ;
     return (
       <li className="ImageGalleryItem">
         <img
@@ -21,7 +21,7 @@ export class ImageGalleryItem extends Component {
           src={webformatURL}
           alt="img"
         />
-        {this.state.showModal && <Modal onClose={this.Modal} image={image} />}
+        {this.state.showModal && <Modal onClose={this.Modal} image={item} />}
       </li>
     );
   }

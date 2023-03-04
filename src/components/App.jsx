@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './App.css';
-import { FetchImg } from 'services/fetchImges';
+import { fetchImages } from 'services/fetchImges';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
@@ -8,8 +8,8 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 let page = 1;
 export class App extends Component {
   state = {
-    inputData: '',
-    images: [],
+    inputData: 'cat',
+    items: [],
     status: 'idle',
     totalHits: 0,
   };
@@ -22,13 +22,13 @@ export class App extends Component {
     } else {
       try {
         this.setState({ status: 'pending' });
-        const { totalHits, hits } = FetchImg(inputData, this.state.page);
+        const { totalHits, hits } = fetchImages(inputData, page);
         if (hits.length < 1) {
           this.setState({ status: 'idle' });
           alert('Немає фото');
         } else {
           this.setState({
-            images: hits,
+            items: hits,
             inputData,
             totalHits: totalHits,
             status: 'resolved',
@@ -43,9 +43,10 @@ export class App extends Component {
     const { inputData } = this.state;
     this.setState({ status: 'pending' });
     try {
-      const { hits } = FetchImg(inputData, (page += 1));
+      const { hits } = fetchImages(inputData, (page += 1));
+      console.log(hits);
       this.setState(prevState => ({
-        images: [...prevState.images, ...hits],
+        items: [...prevState.items, ...hits],
         status: 'resolved',
       }));
     } catch (error) {
@@ -54,7 +55,7 @@ export class App extends Component {
   };
 
   render() {
-    const { status, totalHits, images } = this.state;
+    const { status, totalHits, items } = this.state;
     if (status === 'idle') {
       return (
         <div className="App">
@@ -66,7 +67,7 @@ export class App extends Component {
       return (
         <div className="App">
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={this.state.page} images={this.state.images} />
+          <ImageGallery page={page} items={this.state.items} />
           <Loader />
           {totalHits > 12 && <Button onClick={this.AddMore} />}
         </div>
@@ -84,8 +85,8 @@ export class App extends Component {
       return (
         <div className="App">
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={this.state.page} images={this.state.images} />
-          {totalHits > 12 && totalHits > images.length && (
+          <ImageGallery page={page} items={this.state.items} />
+          {totalHits > 12 && totalHits > items.length && (
             <Button onClick={this.AddMore} />
           )}
         </div>

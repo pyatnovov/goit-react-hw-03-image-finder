@@ -2,11 +2,11 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
 import PropTypes from 'prop-types';
 
-export function ImageGallery({ images }) {
+export function ImageGallery({ items }) {
   return (
     <ul className="ImageGallery">
-      {images.map(image => (
-        <ImageGalleryItem key={image.id} image={image} />
+      {items.map(item => (
+        <ImageGalleryItem key={item.id} item={item} />
       ))}
     </ul>
   );

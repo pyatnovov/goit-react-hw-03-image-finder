@@ -5,24 +5,26 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-let page = 1;
 export class App extends Component {
   state = {
     inputData: 'cat',
     items: [],
     status: 'idle',
     totalHits: 0,
+    page: 1,
   };
 
-  handleSubmit  = async inputData => {
-    page = 1;
+  handleSubmit = async inputData => {
     if (inputData.trim() === '') {
       alert('Введіть назву фотографії');
       return;
     } else {
       try {
         this.setState({ status: 'pending' });
-        const { totalHits, hits } = await fetchImages(inputData, page);
+        const { totalHits, hits } = await fetchImages(
+          inputData,
+          this.state.page
+        );
         if (hits.length < 1) {
           this.setState({ status: 'idle' });
           alert('Немає фото');
@@ -43,7 +45,7 @@ export class App extends Component {
     const { inputData } = this.state;
     this.setState({ status: 'pending' });
     try {
-      const { hits } = await fetchImages(inputData, (page += 1));
+      const { hits } = await fetchImages(inputData, (this.state.page += 1));
       this.setState(prevState => ({
         items: [...prevState.items, ...hits],
         status: 'resolved',
@@ -66,7 +68,7 @@ export class App extends Component {
       return (
         <div className="App">
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={page} items={this.state.items} />
+          <ImageGallery page={this.state.page} items={this.state.items} />
           <Loader />
           {totalHits > 12 && <Button onClick={this.AddMore} />}
         </div>
@@ -84,7 +86,7 @@ export class App extends Component {
       return (
         <div className="App">
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={page} items={this.state.items} />
+          <ImageGallery page={this.state.page} items={this.state.items} />
           {totalHits > 12 && totalHits > items.length && (
             <Button onClick={this.AddMore} />
           )}
